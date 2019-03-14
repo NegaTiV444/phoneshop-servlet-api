@@ -1,5 +1,7 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.model.exceptions.ListAlreadyContainsProductException;
+import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 
 import javax.servlet.ServletException;
@@ -12,14 +14,34 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-public class ProductListPageServlet extends HttpServlet {
+public class ProductListPageServlet extends HttpServlet
+{
+
+    private ArrayListProductDao products = new ArrayListProductDao();
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void init()
+    {
+        getSampleProducts().forEach(p -> {
+            try {
+                products.save(p);
+            } catch (ListAlreadyContainsProductException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         request.setAttribute("products", getSampleProducts());
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
-    private List<Product> getSampleProducts(){
+
+
+    private List<Product> getSampleProducts()
+    {
         List<Product> result = new ArrayList<>();
         Currency usd = Currency.getInstance("USD");
         result.add(new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));
