@@ -1,5 +1,6 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -26,6 +28,8 @@ public class ProductListPageServletTest {
     private HttpServletResponse response;
     @Mock
     private RequestDispatcher requestDispatcher;
+    @Mock
+    private ArrayListProductDao products;
 
     private ProductListPageServlet servlet = new ProductListPageServlet();
 
@@ -38,5 +42,11 @@ public class ProductListPageServletTest {
     public void testDoGet() throws ServletException, IOException {
         servlet.doGet(request, response);
         verify(requestDispatcher).forward(request, response);
+    }
+
+    @Test
+    public void testFindProductsInDoGet() throws ServletException, IOException{
+        servlet.doGet(request, response);
+        verify(request).setAttribute("products", products.findProducts());
     }
 }
