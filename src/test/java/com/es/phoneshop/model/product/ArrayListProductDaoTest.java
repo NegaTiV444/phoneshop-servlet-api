@@ -1,7 +1,5 @@
 package com.es.phoneshop.model.product;
 
-import com.es.phoneshop.model.exceptions.ListAlreadyContainsProductException;
-import com.es.phoneshop.model.exceptions.ListDoesNotContainProductException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +33,7 @@ public class ArrayListProductDaoTest
         boolean isException = false;
         try {
             productDao.getProduct(product.getId());
-        } catch (ListDoesNotContainProductException e) {
+        } catch (IllegalArgumentException e) {
             isException = true;
         }
         assertTrue(isException);
@@ -48,7 +46,7 @@ public class ArrayListProductDaoTest
         try {
             productDao.save(product);
             productDao.save(product);
-        } catch (ListAlreadyContainsProductException e) {
+        } catch (IllegalArgumentException e) {
             isException = true;
         }
         assertTrue(isException);
@@ -60,7 +58,7 @@ public class ArrayListProductDaoTest
         try {
             productDao.save(product);
             assertEquals(product, productDao.getProduct(product.getId()));
-        } catch (ListDoesNotContainProductException | ListAlreadyContainsProductException e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -72,9 +70,7 @@ public class ArrayListProductDaoTest
         try {
             productDao.save(product);
             productDao.delete(product.getId());
-        } catch (ListAlreadyContainsProductException e) {
-            e.printStackTrace();
-        } catch (ListDoesNotContainProductException e) {
+        } catch (IllegalArgumentException e) {
             isException = true;
         }
         assertTrue(!isException);

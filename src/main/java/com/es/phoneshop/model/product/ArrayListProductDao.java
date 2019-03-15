@@ -1,7 +1,5 @@
 package com.es.phoneshop.model.product;
 
-import com.es.phoneshop.model.exceptions.ListAlreadyContainsProductException;
-import com.es.phoneshop.model.exceptions.ListDoesNotContainProductException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +10,8 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> products = new ArrayList<>();
 
     @Override
-    public Product getProduct(Long id) throws ListDoesNotContainProductException {
-        if (products.stream().anyMatch(p -> p.getId().equals(id)))
-            return products.stream().filter(product -> product.getId().equals(id)).findAny().get();
-        else
-            throw new ListDoesNotContainProductException("List doesn't contains product " + id);
+    public Product getProduct(Long id) throws IllegalArgumentException{
+        return products.stream().filter(product -> product.getId().equals(id)).findAny().orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
@@ -25,18 +20,15 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public void save(Product product) throws ListAlreadyContainsProductException {
+    public void save(Product product) throws IllegalArgumentException {
         if (products.stream().anyMatch(p -> p.getId().equals(product.getId())))
-            throw new ListAlreadyContainsProductException("List already contains product " + product.getId());
+            throw new IllegalArgumentException();
         else
             products.add(product);
     }
 
     @Override
-    public void delete(Long id) throws ListDoesNotContainProductException {
-        if (products.stream().anyMatch(p -> p.getId().equals(id)))
-            products.remove(products.stream().filter(product -> product.getId().equals(id)).findAny().get());
-        else
-            throw new ListDoesNotContainProductException("List doesn't contains product " + id);
+    public void delete(Long id) throws IllegalArgumentException {
+            products.remove(products.stream().filter(product -> product.getId().equals(id)).findAny().orElseThrow(IllegalArgumentException::new));
     }
 }

@@ -6,8 +6,8 @@ import com.es.phoneshop.model.exceptions.ListDoesNotContainProductException;
 import java.util.List;
 
 public interface ProductDao {
-    Product getProduct(Long id) throws ListDoesNotContainProductException;
+    Product getProduct(Long id) throws IllegalArgumentException;
     List<Product> findProducts();
-    void save(Product product) throws ListAlreadyContainsProductException;
-    void delete(Long id) throws ListDoesNotContainProductException;
+    void save(Product product) throws IllegalArgumentException;
+    void delete(Long id) throws IllegalArgumentException;
 }

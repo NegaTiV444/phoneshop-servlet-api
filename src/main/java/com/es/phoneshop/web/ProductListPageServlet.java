@@ -1,6 +1,5 @@
 package com.es.phoneshop.web;
 
-import com.es.phoneshop.model.exceptions.ListAlreadyContainsProductException;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 
@@ -25,7 +24,7 @@ public class ProductListPageServlet extends HttpServlet
         getSampleProducts().forEach(p -> {
             try {
                 products.save(p);
-            } catch (ListAlreadyContainsProductException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         });
