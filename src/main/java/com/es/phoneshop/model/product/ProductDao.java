@@ -1,10 +1,11 @@
 package com.es.phoneshop.model.product;
 
+
 import java.util.List;
 
 public interface ProductDao {
-    Product getProduct(Long id);
+    Product getProduct(Long id) throws IllegalArgumentException;
     List<Product> findProducts();
-    void save(Product product);
-    void delete(Long id);
+    void save(Product product) throws IllegalArgumentException;
+    void delete(Long id) throws IllegalArgumentException;
 }
