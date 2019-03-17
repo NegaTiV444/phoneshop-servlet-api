@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -29,7 +28,7 @@ public class ProductListPageServletTest {
     @Mock
     private RequestDispatcher requestDispatcher;
     @Mock
-    private ArrayListProductDao products;
+    private ArrayListProductDao productDao;
 
     private ProductListPageServlet servlet = new ProductListPageServlet();
 
@@ -47,6 +46,6 @@ public class ProductListPageServletTest {
     @Test
     public void testFindProductsInDoGet() throws ServletException, IOException{
         servlet.doGet(request, response);
-        verify(request).setAttribute("products", products.findProducts());
+        verify(request).setAttribute("products", productDao.findProducts());
     }
 }

@@ -3,20 +3,26 @@ package com.es.phoneshop.model.product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArrayListProductDaoTest
 {
     private ProductDao productDao;
+    private Product product;
 
     @Before
     public void setup() {
         productDao = new ArrayListProductDao();
+        product = new Product();
+        product.setId(666L);
+        product.setPrice(new BigDecimal(100));
+        product.setStock(1);
     }
 
     @Test
@@ -24,55 +30,38 @@ public class ArrayListProductDaoTest
         assertTrue(productDao.findProducts().isEmpty());
     }
 
-    @Mock
-    private Product product;
-
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGetProductWithIncorrectId()
     {
-        boolean isException = false;
-        try {
-            productDao.getProduct(product.getId());
-        } catch (IllegalArgumentException e) {
-            isException = true;
-        }
-        assertTrue(isException);
+        Product product = new Product();
+        productDao.getProduct(product.getId());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testSaveOneProductTwice()
     {
-        boolean isException = false;
-        try {
-            productDao.save(product);
-            productDao.save(product);
-        } catch (IllegalArgumentException e) {
-            isException = true;
-        }
-        assertTrue(isException);
+        productDao.save(product);
+        productDao.save(product);
     }
 
     @Test
-    public void testSaveAndGet()
+    public void testSave()
     {
-        try {
-            productDao.save(product);
-            assertEquals(product, productDao.getProduct(product.getId()));
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
+        productDao.save(product);
+        assertFalse(productDao.findProducts().isEmpty());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDelete()
     {
-        boolean isException = false;
-        try {
-            productDao.save(product);
-            productDao.delete(product.getId());
-        } catch (IllegalArgumentException e) {
-            isException = true;
-        }
-        assertTrue(!isException);
+        productDao.save(product);
+        productDao.delete(product.getId());
+        productDao.getProduct(product.getId());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDeleteWithIncorrectId()
+    {
+        productDao.delete(product.getId());
     }
 }

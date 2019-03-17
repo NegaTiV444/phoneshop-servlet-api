@@ -13,17 +13,15 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-public class ProductListPageServlet extends HttpServlet
-{
+public class ProductListPageServlet extends HttpServlet {
 
-    private ArrayListProductDao products = new ArrayListProductDao();
+    private ArrayListProductDao productDao = new ArrayListProductDao();
 
     @Override
-    public void init()
-    {
+    public void init() {
         getSampleProducts().forEach(p -> {
             try {
-                products.save(p);
+                productDao.save(p);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -31,16 +29,14 @@ public class ProductListPageServlet extends HttpServlet
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        request.setAttribute("products", products.findProducts());
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("products", productDao.findProducts());
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
 
 
-    private List<Product> getSampleProducts()
-    {
+    private List<Product> getSampleProducts() {
         List<Product> result = new ArrayList<>();
         Currency usd = Currency.getInstance("USD");
         result.add(new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));

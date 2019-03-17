@@ -1,7 +1,5 @@
 package com.es.phoneshop.model.product;
 
-import com.es.phoneshop.model.exceptions.ListAlreadyContainsProductException;
-import com.es.phoneshop.model.exceptions.ListDoesNotContainProductException;
 
 import java.util.List;
 
