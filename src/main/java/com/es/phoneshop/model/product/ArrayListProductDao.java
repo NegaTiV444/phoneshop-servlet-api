@@ -12,6 +12,18 @@ import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
 
+    private ArrayListProductDao(){}
+
+    //Singleton initialization on Demand Holder
+
+    private static class SingletonHolder{
+        private static final ArrayListProductDao instance = new ArrayListProductDao();
+    }
+
+    public static ArrayListProductDao getInstance(){
+        return SingletonHolder.instance;
+    }
+
     private List<Product> products = new ArrayList<>();
 
     @Override

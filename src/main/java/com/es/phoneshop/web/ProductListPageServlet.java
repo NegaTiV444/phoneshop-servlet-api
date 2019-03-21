@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ProductListPageServlet extends HttpServlet {
 
-    private ArrayListProductDao productDao = new ArrayListProductDao();
+    private ArrayListProductDao productDao = ArrayListProductDao.getInstance();
 
     @Override
     public void init() {
