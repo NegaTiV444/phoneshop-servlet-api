@@ -30,7 +30,15 @@ public class ProductListPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("products", productDao.findProducts());
+        String query = request.getParameter("query"), sortBy =  request.getParameter("sortBy"),
+                order = request.getParameter("order");
+        if ((query != null) && (sortBy != null) && (order != null))
+            request.setAttribute("products", productDao.findProducts(query, sortBy, order));
+        else
+            if (query != null)
+                request.setAttribute("products", productDao.findProducts(query));
+            else
+                request.setAttribute("products", productDao.findProducts());
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
