@@ -27,6 +27,15 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> products = new ArrayList<>();
 
     @Override
+    public synchronized Product getProduct(String code) throws IllegalArgumentException{
+        return products.stream()
+                       .filter(product -> product.getCode()
+                       .equalsIgnoreCase(code))
+                       .findAny()
+                       .orElseThrow(() -> new IllegalArgumentException("List doesn't contain product with code " + code));
+    }
+
+    @Override
     public synchronized Product getProduct(Long id) throws IllegalArgumentException{
         return products.stream()
                        .filter(product -> product.getId()

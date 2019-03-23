@@ -32,7 +32,7 @@
         <td>
           <img class="product-tile" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
         </td>
-        <td>${product.description}</td>
+          <td><a href="productDetails?code=${product.code}">${product.description}</a></td>
         <td class="price">
           <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="${product.currency.symbol}"/>
         </td>

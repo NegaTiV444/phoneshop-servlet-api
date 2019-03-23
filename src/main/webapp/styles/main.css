@@ -29,6 +29,18 @@ img.product-tile {
 }
 
 /* Page specific styles */
-body.product-list {
+body.master-tag-body {
+}
 
+.bigPrice{
+  margin-left: 70px;
+}
+
+.buy button {
+  margin: 0 15px;
+}
+
+.productDetails {
+  display: flex;
+  width: 100%;
 }

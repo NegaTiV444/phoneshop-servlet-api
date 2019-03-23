@@ -13,6 +13,15 @@ public class Product {
     private Currency currency;
     private int stock;
     private String imageUrl;
+    private String info = " Operation System ...<br> Display ...<br> Camera ...<br> Memory ...<br> Other ...";
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     public Product() {
     }

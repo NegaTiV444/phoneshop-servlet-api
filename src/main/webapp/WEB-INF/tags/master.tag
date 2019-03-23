@@ -7,7 +7,7 @@
   <link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/styles/main.css">
 </head>
-<body class="product-list">
+<body class="master-tag-body">
   <header>
     <a href="${pageContext.servletContext.contextPath}">
       <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
