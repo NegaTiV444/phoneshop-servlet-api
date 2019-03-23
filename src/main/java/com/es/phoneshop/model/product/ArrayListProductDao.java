@@ -32,7 +32,7 @@ public class ArrayListProductDao implements ProductDao {
                        .filter(product -> product.getId()
                        .equals(id))
                        .findAny()
-                       .orElseThrow(IllegalArgumentException::new);
+                       .orElseThrow(() -> new IllegalArgumentException("List doesn't contain product with id " + id));
     }
 
 
@@ -80,7 +80,7 @@ public class ArrayListProductDao implements ProductDao {
         if (products.stream()
                     .anyMatch(p -> p.getId()
                     .equals(product.getId()))) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("List already contains product with id " + product.getId());
         }
         else
             products.add(product);
@@ -92,7 +92,7 @@ public class ArrayListProductDao implements ProductDao {
                                     .filter(product -> product.getId()
                                     .equals(id))
                                     .findAny()
-                                    .orElseThrow(IllegalArgumentException::new));
+                                    .orElseThrow(() -> new IllegalArgumentException("List doesn't contain product with id " + id)));
     }
 
     private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
