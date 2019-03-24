@@ -15,13 +15,8 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Product product = productDao.getProduct(request.getParameter("code"));
-            request.setAttribute("product", product);
-            request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("code", request.getParameter("code"));
-            request.getRequestDispatcher("/WEB-INF/pages/productNotFound.jsp").forward(request, response);
-        }
+        Product product = productDao.getProduct(request.getParameter("code"));
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
     }
 }

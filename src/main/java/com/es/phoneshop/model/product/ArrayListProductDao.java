@@ -32,7 +32,7 @@ public class ArrayListProductDao implements ProductDao {
                        .filter(product -> product.getCode()
                        .equalsIgnoreCase(code))
                        .findAny()
-                       .orElseThrow(() -> new IllegalArgumentException("List doesn't contain product with code " + code));
+                       .orElseThrow(() -> new IllegalArgumentException("Product with code " + code + " not found"));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ArrayListProductDao implements ProductDao {
                        .filter(product -> product.getId()
                        .equals(id))
                        .findAny()
-                       .orElseThrow(() -> new IllegalArgumentException("List doesn't contain product with id " + id));
+                       .orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found"));
     }
 
 

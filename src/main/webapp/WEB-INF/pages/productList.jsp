@@ -17,13 +17,11 @@
       <tr>
         <td>Image</td>
         <td>Description
-          <a href="products?query=${param.query}&sortBy=description&order=ascending">▲</a>
-          <a href="products?query=${param.query}&sortBy=description&order=descending">▼</a>
+          <tags:sotring sortBy="description"/>
         </td>
         <td class="price">
           Price
-          <a href="products?query=${param.query}&sortBy=price&order=ascending">▲</a>
-          <a href="products?query=${param.query}&sortBy=price&order=descending">▼</a>
+          <tags:sotring sortBy="price"/>
         </td>
       </tr>
     </thead>

@@ -31,4 +31,14 @@
     </listener-class>
   </listener>
 
+  <error-page>
+    <exception-type>java.lang.IllegalArgumentException</exception-type>
+    <location>/WEB-INF/pages/error.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/pages/global-error.html</location>
+  </error-page>
+
 </web-app>

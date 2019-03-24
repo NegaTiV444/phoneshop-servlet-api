@@ -18,7 +18,7 @@ public class ArrayListProductDaoTest
 
     @Before
     public void setup() {
-        productDao = new ArrayListProductDao();
+        productDao = ArrayListProductDao.getInstance();
         product = new Product();
         product.setId(666L);
         product.setPrice(new BigDecimal(100));
