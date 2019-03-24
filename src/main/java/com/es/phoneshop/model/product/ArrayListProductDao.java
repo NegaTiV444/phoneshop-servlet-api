@@ -32,7 +32,7 @@ public class ArrayListProductDao implements ProductDao {
                        .filter(product -> product.getCode()
                        .equalsIgnoreCase(code))
                        .findAny()
-                       .orElseThrow(() -> new IllegalArgumentException("Product with code " + code + " not found"));
+                       .orElseThrow(() -> new IllegalArgumentException("Product with code \"" + code + "\" not found"));
     }
 
     @Override
@@ -41,18 +41,21 @@ public class ArrayListProductDao implements ProductDao {
                        .filter(product -> product.getId()
                        .equals(id))
                        .findAny()
-                       .orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found"));
+                       .orElseThrow(() -> new IllegalArgumentException("Product with id \"" + id + "\" not found"));
     }
 
-
+    @Override
     public synchronized List<Product> findProducts() {
         return products.stream()
-                       .filter(product -> product.getPrice() != null && product.getStock() > 0)
+                       .filter(isProductCorrect)
                        .collect(Collectors.toList());
     }
 
     @Override
     public synchronized List<Product> findProducts(String query) {
+
+        if ((null == query) || (query.trim().isEmpty()))
+            return findProducts();
         String[] terms = query.toLowerCase().split(" ");
         ToIntFunction<Product> getNumberOfTerms = product -> (int) Arrays.stream(terms)
                 .filter(product.getDescription().toLowerCase()::contains)
@@ -65,27 +68,25 @@ public class ArrayListProductDao implements ProductDao {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public synchronized List<Product> findProducts(String query, String sortBy, String order) {
-        List<Product> products = findProducts(query);
+        products = findProducts(query);
         Comparator<Product> comparator = null;
         switch (sortBy){
-            case "price":
-                comparator = Comparator.comparing(Product::getPrice);
-                break;
             case "description":
                 comparator = Comparator.comparing(Product::getDescription);
                 break;
             default:
-                comparator = Comparator.comparing(Product::getCode);
+                comparator = Comparator.comparing(Product::getPrice);
         }
-        if (order.equalsIgnoreCase("descending"))
+        if (order.equalsIgnoreCase("desc"))
             comparator = comparator.reversed();
         products.sort(comparator);
         return products;
     }
 
     @Override
-    public void save(Product product) throws IllegalArgumentException {
+    public synchronized void save(Product product) throws IllegalArgumentException {
         if (products.stream()
                     .anyMatch(p -> p.getId()
                     .equals(product.getId()))) {
@@ -96,7 +97,7 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public void delete(Long id) throws IllegalArgumentException {
+    public synchronized void delete(Long id) throws IllegalArgumentException {
             products.remove(products.stream()
                                     .filter(product -> product.getId()
                                     .equals(id))

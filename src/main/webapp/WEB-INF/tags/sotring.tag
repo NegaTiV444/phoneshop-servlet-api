@@ -2,5 +2,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ attribute name="sortBy" required="true" %>
 
-<a href="products?query=${param.query}&sortBy=${sortBy}&order=ascending">▲</a>
-<a href="products?query=${param.query}&sortBy=${sortBy}&order=descending">▼</a>
+<a href="products?query=${param.query}&sortBy=${sortBy}&order=asc">▲</a>
+<a href="products?query=${param.query}&sortBy=${sortBy}&order=desc">▼</a>
