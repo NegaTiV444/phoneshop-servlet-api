@@ -15,4 +15,30 @@
     <url-pattern>/products</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>productDetails</servlet-name>
+    <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>productDetails</servlet-name>
+    <url-pattern>/productDetails</url-pattern>
+  </servlet-mapping>
+
+  <listener>
+    <listener-class>
+      com.es.phoneshop.web.ProductDemodataServletContextListener
+    </listener-class>
+  </listener>
+
+  <error-page>
+    <exception-type>java.lang.IllegalArgumentException</exception-type>
+    <location>/WEB-INF/pages/productNotFound.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/pages/pageNotFound.html</location>
+  </error-page>
+
 </web-app>
