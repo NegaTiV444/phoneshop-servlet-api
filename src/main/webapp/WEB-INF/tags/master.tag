@@ -9,7 +9,7 @@
 </head>
 <body class="master-tag-body">
 <header>
-    <a href="${pageContext.servletContext.contextPath}">
+    <a href="<с:url value=""/>">
         <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
         PhoneShop
     </a>
