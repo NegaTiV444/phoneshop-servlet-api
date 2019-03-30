@@ -52,7 +52,7 @@ public class HttpSessionCartService implements CartService {
                 session.setAttribute(CART_KEY, cart);
             }
         } catch (ClassCastException e) {
-            return null;
+            throw new IllegalArgumentException("Source must be HttpSession");
         }
         return cart;
     }

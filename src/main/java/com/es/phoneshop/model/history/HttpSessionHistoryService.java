@@ -31,7 +31,7 @@ public class HttpSessionHistoryService implements HistoryService {
                 session.setAttribute(HISTORY_KEY, history);
             }
         } catch (ClassCastException e) {
-            return null;
+            throw new IllegalArgumentException("Source must be HttpSession");
         }
         return history;
     }
