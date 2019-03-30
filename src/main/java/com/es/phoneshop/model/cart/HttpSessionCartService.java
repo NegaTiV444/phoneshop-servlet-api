@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 public class HttpSessionCartService implements CartService{
 
+    private final String CART_KEY = "cart";
+
     private HttpSessionCartService(){}
 
     private static class SingletonHandler{
@@ -36,5 +38,22 @@ public class HttpSessionCartService implements CartService{
         } else {
             cart.getItems().add(new CartItem(product, quantity));
         }
+    }
+
+    @Override
+    public Cart getCartFromSource(Object src) {
+        Cart cart;
+        HttpSession session;
+        try {
+            session = (HttpSession)src;
+            cart = (Cart)session.getAttribute(CART_KEY);
+            if (cart == null) {
+                cart = new Cart();
+                session.setAttribute(CART_KEY, cart);
+            }
+        } catch (ClassCastException e){
+            return null;
+        }
+        return cart;
     }
 }

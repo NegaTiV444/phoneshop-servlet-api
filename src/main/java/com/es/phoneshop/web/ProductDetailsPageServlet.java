@@ -38,11 +38,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         Product product = productDao.getProduct(req.getParameter("code"));
-        Cart cart = (Cart) session.getAttribute(CART_KEY);
-        if (cart == null) {
-            cart = new Cart();
-            session.setAttribute(CART_KEY, cart);
-        }
+        Cart cart = cartService.getCartFromSource(session);
         int quantity = 1;
         String msg;
         try {
