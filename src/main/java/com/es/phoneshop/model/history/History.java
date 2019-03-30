@@ -13,7 +13,7 @@ public class History {
         return recentProducts;
     }
 
-    public History(){
+    public History() {
         recentProducts = new LinkedList<>();
     }
 

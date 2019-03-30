@@ -4,7 +4,7 @@ import javax.servlet.ServletException;
 
 public class ProductNotFoundException extends ServletException {
 
-    public ProductNotFoundException(String msg){
+    public ProductNotFoundException(String msg) {
         super(msg);
     }
 }

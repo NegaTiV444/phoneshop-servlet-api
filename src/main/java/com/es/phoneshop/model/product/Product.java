@@ -45,7 +45,7 @@ public class Product {
 
     @Override
     public boolean equals(Object obj) {
-        Product anotherProduct = (Product)obj;
+        Product anotherProduct = (Product) obj;
         return getCode().equalsIgnoreCase(anotherProduct.getCode());
     }
 

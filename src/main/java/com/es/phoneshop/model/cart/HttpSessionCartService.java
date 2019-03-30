@@ -5,17 +5,18 @@ import com.es.phoneshop.model.product.Product;
 
 import javax.servlet.http.HttpSession;
 
-public class HttpSessionCartService implements CartService{
+public class HttpSessionCartService implements CartService {
 
-    private final String CART_KEY = "cart";
+    private static final String CART_KEY = "cart";
 
-    private HttpSessionCartService(){}
+    private HttpSessionCartService() {
+    }
 
-    private static class SingletonHandler{
+    private static class SingletonHandler {
         static final HttpSessionCartService instance = new HttpSessionCartService();
     }
 
-    public static HttpSessionCartService newInstance(){
+    public static HttpSessionCartService newInstance() {
         return SingletonHandler.instance;
     }
 
@@ -24,15 +25,14 @@ public class HttpSessionCartService implements CartService{
         CartItem cartItem = cart.getItems().stream()
                 .filter(cartItem1 -> cartItem1.getProduct().equals(product)
                 ).findAny().orElse(null);
-        if (product.getStock() < quantity){
+        if (product.getStock() < quantity) {
             throw new OutOfStockException();
         }
-        if (cartItem != null){
+        if (cartItem != null) {
             int newQuantity = cartItem.getQuantity() + quantity;
-            if (cartItem.getProduct().getStock() < newQuantity){
+            if (cartItem.getProduct().getStock() < newQuantity) {
                 throw new OutOfStockException();
-            }
-            else{
+            } else {
                 cartItem.setQuantity(cartItem.getQuantity() + quantity);
             }
         } else {
@@ -45,13 +45,13 @@ public class HttpSessionCartService implements CartService{
         Cart cart;
         HttpSession session;
         try {
-            session = (HttpSession)src;
-            cart = (Cart)session.getAttribute(CART_KEY);
+            session = (HttpSession) src;
+            cart = (Cart) session.getAttribute(CART_KEY);
             if (cart == null) {
                 cart = new Cart();
                 session.setAttribute(CART_KEY, cart);
             }
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             return null;
         }
         return cart;

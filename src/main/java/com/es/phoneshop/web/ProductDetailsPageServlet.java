@@ -18,12 +18,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ProductDetailsPageServlet extends HttpServlet {
-    private final String CART_KEY = "cart";
-    private final String NOT_A_NUMBER_ERROR_MSG = "nan"; //Not a number
-    private final String OUT_OF_STOCK_ERROR_MSG = "oos"; //Not enough products in stock
-    private final String INVALID_QUNTITY_ERROR_MSG = "iq"; //Quantity must be greater than 0
-    private final String SUCCESSFUL_ADDED_MSG = "atc"; //Added to cart
-
+    private static final String CART_KEY = "cart";
+    private static final String NOT_A_NUMBER_ERROR_MSG = "nan"; //Not a number
+    private static final String OUT_OF_STOCK_ERROR_MSG = "oos"; //Not enough products in stock
+    private static final String INVALID_QUNTITY_ERROR_MSG = "iq"; //Quantity must be greater than 0
+    private static final String SUCCESSFUL_ADDED_MSG = "atc"; //Added to cart
 
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
@@ -59,13 +58,13 @@ public class ProductDetailsPageServlet extends HttpServlet {
         } catch (OutOfStockException e) {
             msg = OUT_OF_STOCK_ERROR_MSG;
         }
-        resp.sendRedirect(req.getRequestURI() + "?code="+ req.getParameter("code") + "&q=" + quantity + "&msg=" + msg);
+        resp.sendRedirect(req.getRequestURI() + "?code=" + req.getParameter("code") + "&q=" + quantity + "&msg=" + msg);
     }
 
-    private void updateHistory(HttpServletRequest req, Product product){
+    private void updateHistory(HttpServletRequest req, Product product) {
         HttpSession session = req.getSession();
         History history = historyService.getHistoryFromSource(session);
-        if (history == null){
+        if (history == null) {
             history = new History();
         }
         historyService.put(history, product);

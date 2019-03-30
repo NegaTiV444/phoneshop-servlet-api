@@ -3,12 +3,10 @@ package com.es.phoneshop.model.history;
 import com.es.phoneshop.model.product.Product;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-
 
 public class HttpSessionHistoryService implements HistoryService {
 
-    private final static String HISTORY_KEY = "history";
+    private static final String HISTORY_KEY = "history";
 
     private HttpSessionHistoryService() {
     }
