@@ -16,7 +16,7 @@ public class ArrayListProductDao implements ProductDao {
     private HashMap<String, Comparator<Product>> comparatorsMap = new HashMap<>();
 
     private ArrayListProductDao() {
-        comparatorsMap.put("descriptor", Comparator.comparing(Product::getDescription));
+        comparatorsMap.put("description", Comparator.comparing(Product::getDescription));
         comparatorsMap.put("price", Comparator.comparing(Product::getPrice));
     }
 
