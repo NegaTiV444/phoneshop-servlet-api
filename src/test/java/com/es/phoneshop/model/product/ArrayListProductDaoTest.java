@@ -132,8 +132,6 @@ public class ArrayListProductDaoTest {
     public void searchingTest(){
 
         List<Product> products = productDao.findProducts("B");
-        if (products == null)
-            System.out.println("AAAAAAAAAAAA");
         assertEquals(1, products.size());
         assertEquals(validProductList.get(1), products.get(0));
 

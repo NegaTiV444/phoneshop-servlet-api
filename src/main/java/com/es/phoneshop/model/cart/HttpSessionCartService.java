@@ -24,7 +24,8 @@ public class HttpSessionCartService implements CartService {
     public void addToCart(Cart cart, Product product, int quantity) throws OutOfStockException {
         CartItem cartItem = cart.getItems().stream()
                 .filter(cartItem1 -> cartItem1.getProduct().equals(product)
-                ).findAny().orElse(null);
+                ).findAny()
+                .orElse(null);
         if (product.getStock() < quantity) {
             throw new OutOfStockException();
         }
