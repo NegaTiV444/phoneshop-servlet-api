@@ -4,6 +4,9 @@ import com.es.phoneshop.model.cart.Cart;
 import com.es.phoneshop.model.cart.CartService;
 import com.es.phoneshop.model.cart.HttpSessionCartService;
 import com.es.phoneshop.model.exceptions.OutOfStockException;
+import com.es.phoneshop.model.history.History;
+import com.es.phoneshop.model.history.HistoryService;
+import com.es.phoneshop.model.history.HttpSessionHistoryService;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 
@@ -25,12 +28,14 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
     private final CartService cartService = HttpSessionCartService.newInstance();
+    private final HistoryService historyService = HttpSessionHistoryService.newInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Product product = productDao.getProduct(request.getParameter("code"));
         request.setAttribute("product", product);
         request.setAttribute("stock", product.getStock());
+        updateHistory(request, product);
         request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
     }
 
@@ -55,7 +60,15 @@ public class ProductDetailsPageServlet extends HttpServlet {
             msg = OUT_OF_STOCK_ERROR_MSG;
         }
         resp.sendRedirect(req.getRequestURI() + "?code="+ req.getParameter("code") + "&q=" + quantity + "&msg=" + msg);
+    }
 
+    private void updateHistory(HttpServletRequest req, Product product){
+        HttpSession session = req.getSession();
+        History history = historyService.getHistoryFromSource(session);
+        if (history == null){
+            history = new History();
+        }
+        historyService.put(history, product);
     }
 
 }

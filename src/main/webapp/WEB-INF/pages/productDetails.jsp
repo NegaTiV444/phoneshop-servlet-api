@@ -54,4 +54,5 @@
             <%--</c:if>--%>
         </form>
     </section>
+    <tags:recentlyViewed />
 </tags:master>
