@@ -1,5 +1,6 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ attribute name="pageTitle" required="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
@@ -9,7 +10,7 @@
 </head>
 <body class="master-tag-body">
 <header>
-    <a href="<с:url value=""/>">
+    <a href="<c:url value="/"/>">
         <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
         PhoneShop
     </a>

@@ -5,6 +5,9 @@ import java.util.Currency;
 
 public class Product {
     private Long id;
+    /**
+     * must be unique
+     */
     private String code;
     private String description;
     /**
@@ -38,6 +41,12 @@ public class Product {
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Product anotherProduct = (Product)obj;
+        return getCode().equalsIgnoreCase(anotherProduct.getCode());
     }
 
     public Long getId() {

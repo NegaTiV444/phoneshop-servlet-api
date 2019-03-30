@@ -1,12 +1,14 @@
 package com.es.phoneshop.model.product;
 
 
+import com.es.phoneshop.model.exceptions.ProductNotFoundException;
+
 import java.util.List;
 
 public interface ProductDao {
-    Product getProduct(String code);
+    Product getProduct(String code) throws ProductNotFoundException;
 
-    Product getProduct(Long id);
+    Product getProduct(Long id) throws ProductNotFoundException;
 
     List<Product> findProducts();
 
@@ -16,5 +18,5 @@ public interface ProductDao {
 
     void save(Product product);
 
-    void delete(Long id);
+    void delete(Long id) throws ProductNotFoundException;
 }
