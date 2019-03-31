@@ -20,7 +20,7 @@ public class ArrayListProductDaoTest {
     private static List<Product> validProductList;
 
     @BeforeClass
-    public static void setupClass(){
+    public static void setupClass() {
         productDao = ArrayListProductDao.getInstance();
         product = new Product();
         product.setId(6666L);
@@ -113,7 +113,7 @@ public class ArrayListProductDaoTest {
     //Lecture 2
 
     @Test
-    public void sortingTest(){
+    public void sortingTest() {
 
         List<Product> products = productDao.findProducts(null, "description", "asc");
         assertEquals(validProductList.get(0), products.get(0));
@@ -129,7 +129,7 @@ public class ArrayListProductDaoTest {
     }
 
     @Test
-    public void searchingTest(){
+    public void searchingTest() {
 
         List<Product> products = productDao.findProducts("B");
         assertEquals(1, products.size());
@@ -141,7 +141,7 @@ public class ArrayListProductDaoTest {
     }
 
     @Test
-    public void searchingAndSortingTest(){
+    public void searchingAndSortingTest() {
 
         List<Product> products = productDao.findProducts("1", "price", "asc");
         assertEquals(3, products.size());

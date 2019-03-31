@@ -12,6 +12,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,6 +30,8 @@ public class ProductDetailsPageServletTest {
     private HttpServletResponse response;
     @Mock
     private RequestDispatcher requestDispatcher;
+    @Mock
+    private HttpSession session;
 
     private ArrayListProductDao productDao;
 
@@ -37,7 +40,11 @@ public class ProductDetailsPageServletTest {
     private ProductDetailsPageServlet servlet = new ProductDetailsPageServlet();
 
     @Before
-    public void setup(){
+    public void setup() {
+        when(request.getSession()).thenReturn(session);
+        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
+        when(request.getParameter("code")).thenReturn("sgs");
+
         productDao = ArrayListProductDao.getInstance();
         product = new Product();
         product.setPrice(new BigDecimal(444));
@@ -45,8 +52,7 @@ public class ProductDetailsPageServletTest {
         product.setId(1L);
         product.setCode("sgs");
         productDao.save(product);
-        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
-        when(request.getParameter("code")).thenReturn("sgs");
+
     }
 
     @Test

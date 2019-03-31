@@ -24,13 +24,10 @@ public class HttpSessionCartServiceTest {
     private static Product product;
 
     @Mock
-    private HttpServletRequest request;
-
-    @Mock
     private HttpSession session;
 
     @BeforeClass
-    public static void init(){
+    public static void init() {
         cartService = HttpSessionCartService.newInstance();
         product = new Product();
         product.setId(6666L);
@@ -44,13 +41,13 @@ public class HttpSessionCartServiceTest {
     public void addToCartTest() throws OutOfStockException {
         Cart cart = new Cart();
         cartService.addToCart(cart, product, 2);
-        assertTrue(cart.getItems().get(0).getProduct().equals(product));
+        assertEquals(cart.getItems().get(0).getProduct(), product);
     }
 
     @Test(expected = OutOfStockException.class)
     public void addToCartOutOfStockTest() throws OutOfStockException {
         Cart cart = new Cart();
-        cartService.addToCart(cart, product,  4);
+        cartService.addToCart(cart, product, 4);
     }
 
     @Test
