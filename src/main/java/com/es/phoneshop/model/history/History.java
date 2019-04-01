@@ -7,14 +7,10 @@ import java.util.LinkedList;
 
 public class History {
 
-    private Deque<Product> recentProducts;
+    private Deque<Product> recentProducts = new LinkedList<>();
 
     public Deque<Product> getRecentProducts() {
         return recentProducts;
-    }
-
-    public History() {
-        recentProducts = new LinkedList<>();
     }
 
 }

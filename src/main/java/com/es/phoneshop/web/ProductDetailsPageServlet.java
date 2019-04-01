@@ -19,10 +19,10 @@ import java.io.IOException;
 
 public class ProductDetailsPageServlet extends HttpServlet {
     private static final String CART_KEY = "cart";
-    private static final String NOT_A_NUMBER_ERROR_MSG = "nan"; //Not a number
-    private static final String OUT_OF_STOCK_ERROR_MSG = "oos"; //Not enough products in stock
-    private static final String INVALID_QUNTITY_ERROR_MSG = "iq"; //Quantity must be greater than 0
-    private static final String SUCCESSFUL_ADDED_MSG = "atc"; //Added to cart
+    private static final String NOT_A_NUMBER_ERROR_MSG = "not.a.number.error";
+    private static final String OUT_OF_STOCK_ERROR_MSG = "out.of.stock.error";
+    private static final String INVALID_QUANTITY_ERROR_MSG = "invalid.quantity.error";
+    private static final String SUCCESSFUL_ADDED_MSG = "added.to.cart";
 
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
@@ -33,7 +33,6 @@ public class ProductDetailsPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Product product = productDao.getProduct(request.getParameter("code"));
         request.setAttribute("product", product);
-        request.setAttribute("stock", product.getStock());
         updateHistory(request, product);
         request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
     }
@@ -48,7 +47,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         try {
             quantity = Integer.parseInt(req.getParameter("quantity"));
             if (quantity < 1) {
-                msg = INVALID_QUNTITY_ERROR_MSG;
+                msg = INVALID_QUANTITY_ERROR_MSG;
             } else {
                 cartService.addToCart(cart, product, quantity);
                 msg = SUCCESSFUL_ADDED_MSG;

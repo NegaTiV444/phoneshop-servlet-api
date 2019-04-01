@@ -55,6 +55,11 @@ public class Product {
         return getCode().equalsIgnoreCase(anotherProduct.getCode());
     }
 
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
+
     public Long getId() {
         return id;
     }

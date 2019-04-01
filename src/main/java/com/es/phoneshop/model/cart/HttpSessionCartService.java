@@ -4,6 +4,7 @@ import com.es.phoneshop.model.exceptions.OutOfStockException;
 import com.es.phoneshop.model.product.Product;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 public class HttpSessionCartService implements CartService {
 
@@ -12,24 +13,20 @@ public class HttpSessionCartService implements CartService {
     private HttpSessionCartService() {
     }
 
-    private static class SingletonHandler {
-        static final HttpSessionCartService instance = new HttpSessionCartService();
-    }
-
     public static HttpSessionCartService newInstance() {
         return SingletonHandler.instance;
     }
 
     @Override
     public void addToCart(Cart cart, Product product, int quantity) throws OutOfStockException {
-        CartItem cartItem = cart.getItems().stream()
-                .filter(cartItem1 -> cartItem1.getProduct().equals(product)
-                ).findAny()
-                .orElse(null);
-        if (product.getStock() < quantity) {
+        Optional<CartItem> cartItemOptional = cart.getItems().stream()
+                .filter(cartItem1 -> cartItem1.getProduct().equals(product))
+                .findAny();
+        if (product.getStock() < quantity) { //TODO fix
             throw new OutOfStockException();
         }
-        if (cartItem != null) {
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
             int newQuantity = cartItem.getQuantity() + quantity;
             if (cartItem.getProduct().getStock() < newQuantity) {
                 throw new OutOfStockException();
@@ -56,5 +53,9 @@ public class HttpSessionCartService implements CartService {
             throw new IllegalArgumentException("Source must be HttpSession");
         }
         return cart;
+    }
+
+    private static class SingletonHandler {
+        static final HttpSessionCartService instance = new HttpSessionCartService();
     }
 }

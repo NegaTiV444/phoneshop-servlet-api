@@ -21,7 +21,8 @@ public class ProductListPageServlet extends HttpServlet {
         String sortBy = request.getParameter("sortBy");
         String order = request.getParameter("order");
         //Put an attribute 'history' in session, because recentlyViewed.tag in productList.jsp uses bean 'history'
-        historyService.getHistoryFromSource(request.getSession());
+        //historyService.getHistoryFromSource(request.getSession());
+        request.setAttribute("history", historyService.getHistoryFromSource(request.getSession()));
         request.setAttribute("products", productDao.findProducts(query, sortBy, order));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
