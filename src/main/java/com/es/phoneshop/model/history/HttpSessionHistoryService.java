@@ -11,10 +11,6 @@ public class HttpSessionHistoryService implements HistoryService {
     private HttpSessionHistoryService() {
     }
 
-    private static class SingletonHandler {
-        static final HttpSessionHistoryService instance = new HttpSessionHistoryService();
-    }
-
     public static HttpSessionHistoryService newInstance() {
         return HttpSessionHistoryService.SingletonHandler.instance;
     }
@@ -46,6 +42,10 @@ public class HttpSessionHistoryService implements HistoryService {
             history.getRecentProducts().removeLast();
         }
         history.getRecentProducts().addFirst(product);
+    }
+
+    private static class SingletonHandler {
+        static final HttpSessionHistoryService instance = new HttpSessionHistoryService();
     }
 
 }

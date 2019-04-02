@@ -34,7 +34,7 @@ public class ProductListPageServletTest {
     private ProductListPageServlet servlet = new ProductListPageServlet();
 
     @Before
-    public void setup(){
+    public void setup() {
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
         when(request.getSession()).thenReturn(session);
 
@@ -47,7 +47,7 @@ public class ProductListPageServletTest {
     }
 
     @Test
-    public void testFindProductsInDoGet() throws ServletException, IOException{
+    public void testFindProductsInDoGet() throws ServletException, IOException {
         servlet.doGet(request, response);
         verify(request).setAttribute("products", productDao.findProducts());
     }

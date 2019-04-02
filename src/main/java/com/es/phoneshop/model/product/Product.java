@@ -22,14 +22,6 @@ public class Product {
     private String imageUrl;
     private String info = " Operation System ...<br> Display ...<br> Camera ...<br> Memory ...<br> Other ...";
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
     public Product() {
     }
 
@@ -41,6 +33,14 @@ public class Product {
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     @Override

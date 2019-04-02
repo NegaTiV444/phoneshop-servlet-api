@@ -14,16 +14,13 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> products = new ArrayList<>();
 
     private HashMap<String, Comparator<Product>> comparatorsMap = new HashMap<>();
+    private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
+
+    //Singleton initialization on Demand Holder
 
     private ArrayListProductDao() {
         comparatorsMap.put("description", Comparator.comparing(Product::getDescription));
         comparatorsMap.put("price", Comparator.comparing(Product::getPrice));
-    }
-
-    //Singleton initialization on Demand Holder
-
-    private static class SingletonHolder {
-        private static final ArrayListProductDao instance = new ArrayListProductDao();
     }
 
     public static ArrayListProductDao getInstance() {
@@ -100,5 +97,7 @@ public class ArrayListProductDao implements ProductDao {
                 .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found")));
     }
 
-    private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
+    private static class SingletonHolder {
+        private static final ArrayListProductDao instance = new ArrayListProductDao();
+    }
 }

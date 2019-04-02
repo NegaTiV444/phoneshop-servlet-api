@@ -1,7 +1,5 @@
 package com.es.phoneshop.model.history;
 
-import com.es.phoneshop.model.cart.CartService;
-import com.es.phoneshop.model.cart.HttpSessionCartService;
 import com.es.phoneshop.model.product.Product;
 import org.junit.BeforeClass;
 import org.junit.Test;

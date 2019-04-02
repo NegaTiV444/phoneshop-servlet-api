@@ -2,17 +2,19 @@ package com.es.phoneshop.model.cart;
 
 import com.es.phoneshop.model.exceptions.OutOfStockException;
 import com.es.phoneshop.model.product.Product;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HttpSessionCartServiceTest {
@@ -25,8 +27,11 @@ public class HttpSessionCartServiceTest {
     @Mock
     private HttpSession session;
 
+    @Mock
+    private Cart mockCart;
+
     @BeforeClass
-    public static void init() {
+    public static void setup() {
         cartService = HttpSessionCartService.newInstance();
         product = new Product();
         product.setId(6666L);
@@ -50,8 +55,19 @@ public class HttpSessionCartServiceTest {
     }
 
     @Test
-    public void getCartFromSource() throws OutOfStockException {
+    public void getCartFromSource() {
         Cart newCart = cartService.getCartFromSource(session);
+        verify(session).setAttribute(CART_KEY, newCart);
         assertNotNull(newCart);
     }
+
+    @Test
+    public void getExistingCartFromSource() {
+        when(session.getAttribute(CART_KEY)).thenReturn(mockCart);
+        Cart result = cartService.getCartFromSource(session);
+        assertEquals(mockCart, result);
+        verify(session, never()).setAttribute(anyString(), Mockito.any(Cart.class));
+
+    }
+
 }

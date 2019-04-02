@@ -22,17 +22,13 @@ public class HttpSessionCartService implements CartService {
         Optional<CartItem> cartItemOptional = cart.getItems().stream()
                 .filter(cartItem1 -> cartItem1.getProduct().equals(product))
                 .findAny();
-        if (product.getStock() < quantity) { //TODO fix
+        int newQuantity;
+        newQuantity = cartItemOptional.map(CartItem::getQuantity).orElse(0);
+        if (product.getStock() < quantity + newQuantity) {
             throw new OutOfStockException();
-        }
-        if (cartItemOptional.isPresent()) {
+        } else if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
-            int newQuantity = cartItem.getQuantity() + quantity;
-            if (cartItem.getProduct().getStock() < newQuantity) {
-                throw new OutOfStockException();
-            } else {
-                cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            }
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
         } else {
             cart.getItems().add(new CartItem(product, quantity));
         }
