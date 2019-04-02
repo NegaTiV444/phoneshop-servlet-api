@@ -44,3 +44,7 @@ body.master-tag-body {
   display: flex;
   width: 100%;
 }
+
+.quantityInput{
+  display: flex;
+}

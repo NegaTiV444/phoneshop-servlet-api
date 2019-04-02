@@ -32,7 +32,7 @@
   </listener>
 
   <error-page>
-    <exception-type>java.lang.IllegalArgumentException</exception-type>
+    <exception-type>com.es.phoneshop.model.exceptions.ProductNotFoundException</exception-type>
     <location>/WEB-INF/pages/productNotFound.jsp</location>
   </error-page>
 

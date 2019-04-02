@@ -1,6 +1,8 @@
 package com.es.phoneshop.model.product;
 
 
+import com.es.phoneshop.model.exceptions.ProductNotFoundException;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
@@ -12,16 +14,13 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> products = new ArrayList<>();
 
     private HashMap<String, Comparator<Product>> comparatorsMap = new HashMap<>();
-
-    private ArrayListProductDao() {
-        comparatorsMap.put("descriptor", Comparator.comparing(Product::getDescription));
-        comparatorsMap.put("price", Comparator.comparing(Product::getPrice));
-    }
+    private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
 
     //Singleton initialization on Demand Holder
 
-    private static class SingletonHolder {
-        private static final ArrayListProductDao instance = new ArrayListProductDao();
+    private ArrayListProductDao() {
+        comparatorsMap.put("description", Comparator.comparing(Product::getDescription));
+        comparatorsMap.put("price", Comparator.comparing(Product::getPrice));
     }
 
     public static ArrayListProductDao getInstance() {
@@ -29,19 +28,19 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized Product getProduct(String code) {
+    public synchronized Product getProduct(String code) throws ProductNotFoundException {
         return products.stream()
                 .filter(product -> product.getCode().equalsIgnoreCase(code))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Product \"" + code + "\" not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product \"" + code + "\" not found"));
     }
 
     @Override
-    public synchronized Product getProduct(Long id) {
+    public synchronized Product getProduct(Long id) throws ProductNotFoundException {
         return products.stream()
                 .filter(product -> product.getId().equals(id))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
     }
 
     @Override
@@ -91,12 +90,14 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized void delete(Long id) {
+    public synchronized void delete(Long id) throws ProductNotFoundException {
         products.remove(products.stream()
                 .filter(product -> product.getId().equals(id))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found")));
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found")));
     }
 
-    private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
+    private static class SingletonHolder {
+        private static final ArrayListProductDao instance = new ArrayListProductDao();
+    }
 }

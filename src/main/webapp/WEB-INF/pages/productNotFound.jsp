@@ -8,4 +8,5 @@
     <h1>Sorry </h1>
     <h2>${requestScope['javax.servlet.error.message']}</h2>
     <span><a href="<с:url value="/products"/>">Home page</a></span>
+    <tags:recentlyViewed />
 </tags:master>

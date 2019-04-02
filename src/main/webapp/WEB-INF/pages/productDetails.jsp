@@ -19,7 +19,29 @@
     <section class="bigPrice"><h2><fmt:formatNumber value="${product.price}" type="currency"
                                                     currencySymbol="${product.currency.symbol}"/></h2></section>
     <section class="buy">
-        <button>Buy Now</button>
-        <button>Add to cart</button>
+        <form method="post">
+            <div class="quantityInput">
+                <input id="cartQuantity" name="quantity" value="${not empty param.q ? param.q : 1}">
+                <span> Available ${product.stock}</span>
+            </div>
+            <button>Add to cart</button>
+            <c:if test="${not empty param.msg}">
+                <c:choose>
+                    <c:when test="${param.msg == 'not.a.number.error'}">
+                        <span style="color:red">Not a number</span>
+                    </c:when>
+                    <c:when test="${param.msg == 'out.of.stock.error'}">
+                        <span style="color:red">Not enough products in stock</span>
+                    </c:when>
+                    <c:when test="${param.msg == 'invalid.quantity.error'}">
+                        <span style="color:red">Quantity must be greater than 0</span>
+                    </c:when>
+                    <c:when test="${param.msg == 'added.to.cart'}">
+                        <span style="color:green">Added to cart</span>
+                    </c:when>
+                </c:choose>
+            </c:if>
+        </form>
     </section>
+    <tags:recentlyViewed/>
 </tags:master>
