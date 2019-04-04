@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class CartPageServlet extends HttpServlet {
@@ -27,6 +28,8 @@ public class CartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         cartService.getCartFromSource(req.getSession());
+        req.setAttribute("msg", req.getSession().getAttribute("msg"));
+        req.setAttribute("q", req.getSession().getAttribute("q"));
         req.getRequestDispatcher("/WEB-INF/pages/cart.jsp").forward(req, resp);
     }
 
@@ -34,7 +37,10 @@ public class CartPageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1).equals("cart")) { //update
             update(request);
-            doGet(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("msg", request.getAttribute("msg"));
+            session.setAttribute("q", request.getAttribute("q"));
+            response.sendRedirect(request.getContextPath() + "/cart");
         } else { //add
             response.sendRedirect(request.getContextPath() + "/products/" + getAddMsg(request));
         }

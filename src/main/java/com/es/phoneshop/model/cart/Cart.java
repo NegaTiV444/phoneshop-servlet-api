@@ -1,12 +1,14 @@
 package com.es.phoneshop.model.cart;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart {
+public class Cart implements Serializable {
 
     private List<CartItem> items = new ArrayList<>();
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
     public List<CartItem> getItems() {
         return items;
@@ -17,16 +19,14 @@ public class Cart {
         recalculateTotalPrice();
     }
 
-    private BigDecimal totalPrice = BigDecimal.ZERO;
-
     public long getTotalPrice() {
         return totalPrice.longValue();
     }
 
-    public void recalculateTotalPrice(){
+    public void recalculateTotalPrice() {
         totalPrice = BigDecimal.ZERO;
         items.stream()
-                .filter(cartItem ->   null != cartItem.getProduct().getPrice())
+                .filter(cartItem -> null != cartItem.getProduct().getPrice())
                 .forEach(cartItem -> totalPrice = totalPrice.add(cartItem.getProduct().getPrice()
                         .multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
     }

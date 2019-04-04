@@ -18,15 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ProductDetailsPageServlet extends HttpServlet {
-    private static final String CART_KEY = "cart";
-    private static final String NOT_A_NUMBER_ERROR_MSG = "not.a.number.error";
-    private static final String OUT_OF_STOCK_ERROR_MSG = "out.of.stock.error";
-    private static final String INVALID_QUANTITY_ERROR_MSG = "invalid.quantity.error";
-    private static final String SUCCESSFUL_ADDED_MSG = "added.to.cart";
-
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
-    private final CartService cartService = HttpSessionCartService.newInstance();
     private final HistoryService historyService = HttpSessionHistoryService.newInstance();
 
     @Override
