@@ -1,7 +1,8 @@
+<%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
-<%@ taglib prefix='с' uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="history" type="com.es.phoneshop.model.history.History" scope="session"/>
 
@@ -15,7 +16,7 @@
         <tr>
             <c:forEach var="product" items="${history.recentProducts}">
                 <td>
-                    <a href="<с:url value="/productDetails"/>?code=${product.code}">
+                    <a href="<с:url value="/products"/>/${product.code}">
                         <img class="product-tile"
                              src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
                     </a>

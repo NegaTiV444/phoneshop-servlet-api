@@ -16,8 +16,6 @@ public class ArrayListProductDao implements ProductDao {
     private HashMap<String, Comparator<Product>> comparatorsMap = new HashMap<>();
     private Predicate<Product> isProductCorrect = product -> product.getPrice() != null && product.getStock() > 0;
 
-    //Singleton initialization on Demand Holder
-
     private ArrayListProductDao() {
         comparatorsMap.put("description", Comparator.comparing(Product::getDescription));
         comparatorsMap.put("price", Comparator.comparing(Product::getPrice));

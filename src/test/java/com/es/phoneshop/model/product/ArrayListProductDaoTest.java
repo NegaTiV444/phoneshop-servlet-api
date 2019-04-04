@@ -85,8 +85,8 @@ public class ArrayListProductDaoTest {
     @Test
     public void testSave() throws ProductNotFoundException {
         productDao.save(product);
-        Product kek = productDao.getProduct(product.getId());
-        assertEquals(product, kek);
+        Product testProduct = productDao.getProduct(product.getId());
+        assertEquals(product, testProduct);
         productDao.delete(product.getId());
     }
 
@@ -108,8 +108,6 @@ public class ArrayListProductDaoTest {
     public void testDeleteWithIncorrectId() throws ProductNotFoundException {
         productDao.delete(product.getId());
     }
-
-    //Lecture 2
 
     @Test
     public void sortingTest() {

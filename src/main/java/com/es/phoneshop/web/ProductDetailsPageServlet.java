@@ -31,7 +31,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Product product = productDao.getProduct(request.getParameter("code"));
+        Product product = productDao.getProduct(request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1));
         request.setAttribute("product", product);
         updateHistory(request, product);
         request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
@@ -40,7 +40,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Product product = productDao.getProduct(req.getParameter("code"));
+        Product product = productDao.getProduct(req.getRequestURI().substring(req.getRequestURI().lastIndexOf('/') + 1));
         Cart cart = cartService.getCartFromSource(session);
         int quantity = 1;
         String msg;
@@ -57,7 +57,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         } catch (OutOfStockException e) {
             msg = OUT_OF_STOCK_ERROR_MSG;
         }
-        resp.sendRedirect(req.getRequestURI() + "?code=" + req.getParameter("code") + "&q=" + quantity + "&msg=" + msg);
+        resp.sendRedirect(req.getRequestURI() + "?q=" + quantity + "&msg=" + msg);
     }
 
     private void updateHistory(HttpServletRequest req, Product product) {

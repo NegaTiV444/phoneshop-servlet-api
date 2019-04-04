@@ -22,7 +22,7 @@
 
   <servlet-mapping>
     <servlet-name>productDetails</servlet-name>
-    <url-pattern>/productDetails</url-pattern>
+    <url-pattern>/products/*</url-pattern>
   </servlet-mapping>
 
   <listener>
