@@ -19,7 +19,7 @@
     <section class="bigPrice"><h2><fmt:formatNumber value="${product.price}" type="currency"
                                                     currencySymbol="${product.currency.symbol}"/></h2></section>
     <section class="buy">
-        <form method="post">
+        <form method="post" action="<с:url value="/cart"/>/add/${product.code}">
             <div class="quantityInput">
                 <input id="cartQuantity" name="quantity" value="${not empty param.q ? param.q : 1}">
                 <span> Available ${product.stock}</span>

@@ -17,22 +17,27 @@ public class HttpSessionCartService implements CartService {
         return SingletonHandler.instance;
     }
 
-    @Override
-    public void addToCart(Cart cart, Product product, int quantity) throws OutOfStockException {
-        Optional<CartItem> cartItemOptional = cart.getItems().stream()
-                .filter(cartItem1 -> cartItem1.getProduct().equals(product))
-                .findAny();
-        int newQuantity;
-        newQuantity = cartItemOptional.map(CartItem::getQuantity).orElse(0);
-        if (product.getStock() < quantity + newQuantity) {
-            throw new OutOfStockException();
-        } else if (cartItemOptional.isPresent()) {
-            CartItem cartItem = cartItemOptional.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-        } else {
-            cart.getItems().add(new CartItem(product, quantity));
-        }
-    }
+//    @Override
+//    public void addOrUpdate(Cart cart, Product product, int quantity, boolean isUpdate) throws OutOfStockException {
+//        Optional<CartItem> cartItemOptional = cart.getItems().stream()
+//                .filter(cartItem1 -> cartItem1.getProduct().equals(product))
+//                .findAny();
+//        int newQuantity;
+//        newQuantity = isUpdate ? quantity : cartItemOptional.map(CartItem::getQuantity).orElse(0) + quantity;
+//        if (product.getStock() < newQuantity) {
+//            throw new OutOfStockException();
+//        } else if (cartItemOptional.isPresent()) {
+//            CartItem cartItem = cartItemOptional.get();
+//            if (newQuantity == 0) {
+//                cart.getItems().remove(cartItem);
+//            } else {
+//                cartItem.setQuantity(newQuantity);
+//            }
+//        } else {
+//            cart.getItems().add(new CartItem(product, quantity));
+//        }
+//        cart.recalculateTotalPrice();
+//    }
 
     @Override
     public Cart getCartFromSource(Object src) {
@@ -50,6 +55,25 @@ public class HttpSessionCartService implements CartService {
         }
         return cart;
     }
+
+    @Override
+    public CartTransaction startTransaction(Cart cart) {
+        return new CartTransaction(cart);
+    }
+
+//    public void updateCart(HttpServletRequest request){
+//        Cart cart = getCartFromSource(request.getSession());
+//        String[] quantityValues = request.getParameterValues("quantity");
+//        int i = 0;
+//        for (String quantityValue : quantityValues){
+//            try {
+//                Integer.parseInt(quantityValue);
+//
+//            } catch (NumberFormatException e){
+//                request.setAttribute();
+//            }
+//        }
+//    }
 
     private static class SingletonHandler {
         static final HttpSessionCartService instance = new HttpSessionCartService();

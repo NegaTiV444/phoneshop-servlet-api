@@ -1,7 +1,6 @@
 package com.es.phoneshop.model.cart;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,12 @@ public class Cart {
         return items;
     }
 
-    private BigDecimal totalPrice;
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+        recalculateTotalPrice();
+    }
+
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
     public long getTotalPrice() {
         return totalPrice.longValue();
@@ -26,4 +30,5 @@ public class Cart {
                 .forEach(cartItem -> totalPrice = totalPrice.add(cartItem.getProduct().getPrice()
                         .multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
     }
+
 }

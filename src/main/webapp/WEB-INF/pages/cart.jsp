@@ -4,41 +4,49 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="с" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="cart" type="com.es.phoneshop.model.cart.Cart" scope="request"/>
+<jsp:useBean id="cart" type="com.es.phoneshop.model.cart.Cart" scope="session"/>
 <tags:master pageTitle="Cart">
-    <%--<form>--%>
-        <%--<input type="text" name="query" value="${param.query}">--%>
-        <%--<button>Search</button>--%>
-    <%--</form>--%>
-    <%--<table>--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-            <%--<td>Image</td>--%>
-            <%--<td>Description--%>
-                <%--<tags:sotring sortBy="description"/>--%>
-            <%--</td>--%>
-            <%--<td class="price">--%>
-                <%--Price--%>
-                <%--<tags:sotring sortBy="price"/>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<c:forEach var="item" items="${cart.items}" varStatus="status">--%>
-            <%--<tr>--%>
-                <%--<td>--%>
-                    <%--${status.index}--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                    <%--<img class="product-tile"--%>
-                         <%--src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${item.product.imageUrl}">--%>
-                <%--</td>--%>
-                <%--<td><a href="<с:url value="/products"/>/${item.product.code}">${item.product.description}</a></td>--%>
-                <%--<td class="price">--%>
-                    <%--<fmt:formatNumber value="${item.product.price}" type="currency"--%>
-                                      <%--currencySymbol="${item.product.currency.symbol}"/>--%>
-                <%--</td>--%>
-            <%--</tr>--%>
-        <%--</c:forEach>--%>
-    <%--</table>--%>
-    <%--<tags:recentlyViewed/>--%>
+    <form method="post">
+        <table>
+            <c:forEach var="item" items="${cart.items}" varStatus="status">
+                <tr>
+                    <td>
+                        ${status.index + 1}
+                    </td>
+                    <td>
+                        <img class="product-tile"
+                             src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${item.product.imageUrl}">
+                    </td>
+                    <td><a href="<с:url value="/products"/>/${item.product.code}">${item.product.description}</a></td>
+                    <td>
+                        <input type="text" name="newQuantity" value="${not empty requestScope.q[status.index] ? requestScope.q[status.index] : item.quantity}">
+                        <c:if test="${not empty requestScope.msg}">
+                            <c:choose>
+                                <c:when test="${requestScope.msg[status.index] == 'not.a.number.error'}">
+                                    <p style="color:red">Not a number</p>
+                                </c:when>
+                                <c:when test="${requestScope.msg[status.index] == 'out.of.stock.error'}">
+                                    <p style="color:red">Not enough products in stock</p>
+                                </c:when>
+                                <c:when test="${requestScope.msg[status.index] == 'invalid.quantity.error'}">
+                                    <p style="color:red">Quantity must be greater than 0</p>
+                                </c:when>
+                            </c:choose>
+                        </c:if>
+                    </td>
+                    <td class="price">
+                        <fmt:formatNumber value="${item.product.price}" type="currency"
+                                          currencySymbol="${item.product.currency.symbol}"/>
+                    </td>
+                    <td>
+                        <button name="delete">Delete</button>
+                    </td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td colspan="3" style="text-align: right">Total: ${cart.totalPrice}</td>
+                <td colspan="2" ><button>Update</button></td>
+            </tr>
+        </table>
+    </form>
 </tags:master>

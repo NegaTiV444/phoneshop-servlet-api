@@ -25,6 +25,21 @@
     <url-pattern>/products/*</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>cart</servlet-name>
+    <servlet-class>com.es.phoneshop.web.CartPageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>cart</servlet-name>
+    <url-pattern>/cart</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>cart</servlet-name>
+    <url-pattern>/cart/add/*</url-pattern>
+  </servlet-mapping>
+
   <listener>
     <listener-class>
       com.es.phoneshop.web.ProductDemodataServletContextListener
@@ -39,6 +54,11 @@
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/pages/pageNotFound.html</location>
+  </error-page>
+
+  <error-page>
+    <exception-type>java.lang.IllegalArgumentException</exception-type>
+    <location>/WEB-INF/pages/internalServerErrorPage.html</location>
   </error-page>
 
 </web-app>
