@@ -1,6 +1,7 @@
 package com.es.phoneshop.model.cart;
 
 import com.es.phoneshop.model.exceptions.OutOfStockException;
+import com.es.phoneshop.model.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
 
 import java.util.ArrayList;
@@ -12,15 +13,15 @@ public class CartTransaction {
     private List<CartItem> items = new ArrayList<>();
     private Cart cart;
 
-    public List<CartItem> getItems() {
-        return items;
-    }
-
-    CartTransaction(Cart cart){
+    CartTransaction(Cart cart) {
         this.cart = cart;
-        for (CartItem cartItem : cart.getItems()){
+        for (CartItem cartItem : cart.getItems()) {
             items.add(new CartItem(cartItem.getProduct(), cartItem.getQuantity()));
         }
+    }
+
+    public List<CartItem> getItems() {
+        return items;
     }
 
     public void addOrUpdate(Product product, int quantity, boolean isUpdate) throws OutOfStockException {
@@ -40,6 +41,17 @@ public class CartTransaction {
             }
         } else {
             items.add(new CartItem(product, quantity));
+        }
+    }
+
+    public void delete(Product product) throws ProductNotFoundException {
+        Optional<CartItem> cartItemOptional = items.stream()
+                .filter(cartItem1 -> cartItem1.getProduct().equals(product))
+                .findAny();
+        if (cartItemOptional.isPresent()){
+            items.remove(cartItemOptional.get());
+        } else {
+            throw new ProductNotFoundException("Product with code " + product.getCode() + " not found in cart");
         }
     }
 

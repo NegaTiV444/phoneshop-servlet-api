@@ -1,6 +1,9 @@
 package com.es.phoneshop.web;
 
-import com.es.phoneshop.model.cart.*;
+import com.es.phoneshop.model.cart.Cart;
+import com.es.phoneshop.model.cart.CartService;
+import com.es.phoneshop.model.cart.CartTransaction;
+import com.es.phoneshop.model.cart.HttpSessionCartService;
 import com.es.phoneshop.model.exceptions.OutOfStockException;
 import com.es.phoneshop.model.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.ArrayListProductDao;
@@ -15,7 +18,6 @@ import java.io.IOException;
 
 public class CartPageServlet extends HttpServlet {
 
-    private static final String CART_KEY = "cart";
     private static final String NOT_A_NUMBER_ERROR_MSG = "not.a.number.error";
     private static final String OUT_OF_STOCK_ERROR_MSG = "out.of.stock.error";
     private static final String INVALID_QUANTITY_ERROR_MSG = "invalid.quantity.error";
@@ -28,8 +30,14 @@ public class CartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         cartService.getCartFromSource(req.getSession());
-        req.setAttribute("msg", req.getSession().getAttribute("msg"));
-        req.setAttribute("q", req.getSession().getAttribute("q"));
+        if (null != req.getSession().getAttribute("msg")) {
+            req.setAttribute("msg", req.getSession().getAttribute("msg"));
+            req.getSession().removeAttribute("msg");
+        }
+        if (null != req.getSession().getAttribute("q")) {
+            req.setAttribute("q", req.getSession().getAttribute("q"));
+            req.getSession().removeAttribute("q");
+        }
         req.getRequestDispatcher("/WEB-INF/pages/cart.jsp").forward(req, resp);
     }
 
@@ -45,7 +53,6 @@ public class CartPageServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/products/" + getAddMsg(request));
         }
     }
-
 
     private String getAddMsg(HttpServletRequest request) throws ProductNotFoundException {
         String productCode = request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1);
@@ -72,33 +79,35 @@ public class CartPageServlet extends HttpServlet {
     private void update(HttpServletRequest request) {
         Cart cart = cartService.getCartFromSource(request.getSession());
         String[] quantities = request.getParameterValues("newQuantity");
-        String[] messages = new String[quantities.length];
-        int newQuantity;
-        boolean isOk = true;
-        CartTransaction transaction = cartService.startTransaction(cart);
-        for (int i = 0; i < quantities.length; i++) {
-            try {
-                newQuantity = Integer.parseInt(quantities[i]);
-                if (newQuantity < 1) {
-                    messages[i] = INVALID_QUANTITY_ERROR_MSG;
+        if (quantities != null) {
+            String[] messages = new String[quantities.length];
+            int newQuantity;
+            boolean isOk = true;
+            CartTransaction transaction = cartService.startTransaction(cart);
+            for (int i = 0; i < quantities.length; i++) {
+                try {
+                    newQuantity = Integer.parseInt(quantities[i]);
+                    if (newQuantity < 1) {
+                        messages[i] = INVALID_QUANTITY_ERROR_MSG;
+                        isOk = false;
+                    } else {
+                        Product product = cart.getItems().get(i).getProduct();
+                        transaction.addOrUpdate(product, newQuantity, true);
+                        messages[i] = "success";
+                    }
+                } catch (NumberFormatException e) {
+                    messages[i] = NOT_A_NUMBER_ERROR_MSG;
                     isOk = false;
-                } else {
-                    Product product = cart.getItems().get(i).getProduct();
-                    transaction.addOrUpdate(product, newQuantity, true);
-                    messages[i] = "success";
+                } catch (OutOfStockException e) {
+                    messages[i] = OUT_OF_STOCK_ERROR_MSG;
+                    isOk = false;
                 }
-            } catch (NumberFormatException e) {
-                messages[i] = NOT_A_NUMBER_ERROR_MSG;
-                isOk = false;
-            } catch (OutOfStockException e) {
-                messages[i] = OUT_OF_STOCK_ERROR_MSG;
-                isOk = false;
             }
+            if (isOk) {
+                transaction.commit();
+            }
+            request.setAttribute("msg", messages);
+            request.setAttribute("q", quantities);
         }
-        if (isOk) {
-            transaction.commit();
-        }
-        request.setAttribute("msg", messages);
-        request.setAttribute("q", quantities);
     }
 }

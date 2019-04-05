@@ -39,7 +39,7 @@
                                           currencySymbol="${item.product.currency.symbol}"/>
                     </td>
                     <td>
-                        <button name="delete">Delete</button>
+                        <button name="delete" formaction="<с:url value="/cart/deleteItem/"/>${item.product.code}">Delete</button>
                     </td>
                 </tr>
             </c:forEach>
