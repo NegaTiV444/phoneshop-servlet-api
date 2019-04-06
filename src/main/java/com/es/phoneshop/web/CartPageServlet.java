@@ -70,7 +70,7 @@ public class CartPageServlet extends HttpServlet {
             }
             return productCode + "?q=" + quantity + "&msg=" + SUCCESSFUL_ADDED_MSG;
         } catch (NumberFormatException e) {
-            return productCode + "?q=" + quantity + "&msg=" + NOT_A_NUMBER_ERROR_MSG;
+            return productCode + "?q=" + request.getParameter("quantity") + "&msg=" + NOT_A_NUMBER_ERROR_MSG;
         } catch (OutOfStockException e) {
             return productCode + "?q=" + quantity + "&msg=" + OUT_OF_STOCK_ERROR_MSG;
         }

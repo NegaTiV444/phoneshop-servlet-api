@@ -42,8 +42,7 @@ public class ProductDetailsPageServletTest {
     public void setup() {
         when(request.getSession()).thenReturn(session);
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
-        when(request.getParameter("code")).thenReturn("sgs");
-
+        when(request.getRequestURI()).thenReturn("/sgs");
         productDao = ArrayListProductDao.getInstance();
         product = new Product();
         product.setPrice(new BigDecimal(444));
@@ -51,7 +50,6 @@ public class ProductDetailsPageServletTest {
         product.setId(1L);
         product.setCode("sgs");
         productDao.save(product);
-
     }
 
     @Test
