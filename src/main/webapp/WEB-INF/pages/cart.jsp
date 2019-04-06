@@ -6,12 +6,13 @@
 
 <jsp:useBean id="cart" type="com.es.phoneshop.model.cart.Cart" scope="session"/>
 <tags:master pageTitle="Cart">
+    <h1>CART</h1>
     <form method="post">
         <table>
             <c:forEach var="item" items="${cart.items}" varStatus="status">
                 <tr>
                     <td>
-                        ${status.index + 1}
+                            ${status.index + 1}
                     </td>
                     <td>
                         <img class="product-tile"
@@ -19,7 +20,8 @@
                     </td>
                     <td><a href="<с:url value="/products"/>/${item.product.code}">${item.product.description}</a></td>
                     <td>
-                        <input type="text" name="newQuantity" value="${not empty requestScope.q[status.index] ? requestScope.q[status.index] : item.quantity}">
+                        <input type="text" name="newQuantity"
+                               value="${not empty requestScope.q[status.index] ? requestScope.q[status.index] : item.quantity}">
                         <c:if test="${not empty requestScope.msg}">
                             <c:choose>
                                 <c:when test="${requestScope.msg[status.index] == 'not.a.number.error'}">
@@ -39,13 +41,18 @@
                                           currencySymbol="${item.product.currency.symbol}"/>
                     </td>
                     <td>
-                        <button name="delete" formaction="<с:url value="/cart/deleteItem/"/>${item.product.code}">Delete</button>
+                        <button name="delete" formaction="<с:url value="/cart/deleteItem/"/>${item.product.code}">
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </c:forEach>
             <tr>
-                <td colspan="3" style="text-align: right">Total: ${cart.totalPrice}</td>
-                <td colspan="2" ><button>Update</button></td>
+                <td colspan="4">
+                    <button style="float: right">Update</button>
+                </td>
+                <td colspan="2" style="text-align: left">Total: ${cart.totalPrice} $</td>
+
             </tr>
         </table>
     </form>

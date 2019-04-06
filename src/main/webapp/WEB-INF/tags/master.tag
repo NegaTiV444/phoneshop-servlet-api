@@ -15,6 +15,10 @@
         <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
         PhoneShop
     </a>
+    <div style="float: right; font-size: 15px; margin-right: 30px">
+        <jsp:include page="/cart/miniCart"/>
+    </div>
+
 </header>
 <main>
     <jsp:doBody/>
