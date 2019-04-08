@@ -65,7 +65,7 @@ public class CartPageServlet extends HttpServlet {
                 return productCode + "?q=" + quantity + "&msg=" + INVALID_QUANTITY_ERROR_MSG;
             } else {
                 CartTransaction transaction = cartService.startTransaction(cart);
-                transaction.addOrUpdate(product, quantity, false);
+                transaction.add(product, quantity);
                 transaction.commit();
             }
             return productCode + "?q=" + quantity + "&msg=" + SUCCESSFUL_ADDED_MSG;
@@ -76,7 +76,7 @@ public class CartPageServlet extends HttpServlet {
         }
     }
 
-    private void update(HttpServletRequest request) {
+    private void update(HttpServletRequest request) throws ProductNotFoundException {
         Cart cart = cartService.getCartFromSource(request.getSession());
         String[] quantities = request.getParameterValues("newQuantity");
         if (quantities != null) {
@@ -92,7 +92,7 @@ public class CartPageServlet extends HttpServlet {
                         isOk = false;
                     } else {
                         Product product = cart.getItems().get(i).getProduct();
-                        transaction.addOrUpdate(product, newQuantity, true);
+                        transaction.update(product, newQuantity);
                         messages[i] = "success";
                     }
                 } catch (NumberFormatException e) {

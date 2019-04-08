@@ -45,7 +45,7 @@ public class HttpSessionCartServiceTest {
     public void addToCartTest() throws OutOfStockException {
         Cart cart = new Cart();
         CartTransaction transaction = cartService.startTransaction(cart);
-        transaction.addOrUpdate(product, 2, false);
+        transaction.add(product, 2);
         transaction.commit();
         assertEquals(cart.getItems().get(0).getProduct(), product);
     }
@@ -54,7 +54,7 @@ public class HttpSessionCartServiceTest {
     public void addToCartOutOfStockTest() throws OutOfStockException {
         Cart cart = new Cart();
         CartTransaction transaction = cartService.startTransaction(cart);
-        transaction.addOrUpdate(product, 4, false);
+        transaction.add(product, 4);
         transaction.commit();
     }
 

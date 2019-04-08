@@ -4,6 +4,7 @@ import com.es.phoneshop.model.exceptions.OutOfStockException;
 import com.es.phoneshop.model.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,40 +25,58 @@ public class CartTransaction {
         return items;
     }
 
-    public void addOrUpdate(Product product, int quantity, boolean isUpdate) throws OutOfStockException {
+    public void add(Product product, int quantity) throws OutOfStockException {
         Optional<CartItem> cartItemOptional = items.stream()
                 .filter(cartItem1 -> cartItem1.getProduct().equals(product))
                 .findAny();
-        int newQuantity;
-        newQuantity = isUpdate ? quantity : cartItemOptional.map(CartItem::getQuantity).orElse(0) + quantity;
+        int newQuantity = cartItemOptional.map(CartItem::getQuantity).orElse(0) + quantity;
         if (product.getStock() < newQuantity) {
             throw new OutOfStockException();
         } else if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
-            if (newQuantity == 0) {
-                items.remove(cartItem);
-            } else {
-                cartItem.setQuantity(newQuantity);
-            }
+            cartItem.setQuantity(newQuantity);
         } else {
             items.add(new CartItem(product, quantity));
         }
     }
 
-    public void delete(Product product) throws ProductNotFoundException {
+    public void update(Product product, int newQuantity) throws OutOfStockException, ProductNotFoundException {
         Optional<CartItem> cartItemOptional = items.stream()
                 .filter(cartItem1 -> cartItem1.getProduct().equals(product))
                 .findAny();
-        if (cartItemOptional.isPresent()){
-            items.remove(cartItemOptional.get());
+        if (product.getStock() < newQuantity) {
+            throw new OutOfStockException();
+        } else if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            cartItem.setQuantity(newQuantity);
         } else {
-            throw new ProductNotFoundException("Product with code " + product.getCode() + " not found in cart");
+            throw new ProductNotFoundException("Product " + product.getCode() + " not found in the cart");
         }
+    }
+
+    public void delete(Product product) throws ProductNotFoundException {
+        CartItem cartItem = items.stream()
+                .filter(cartItem1 -> cartItem1.getProduct().equals(product))
+                .findAny().orElseThrow(() -> new ProductNotFoundException("Product with code " + product.getCode() + " not found in cart"));
+        items.remove(cartItem);
+    }
+
+    private void recalculateTotalPrice() {
+        final BigDecimal[] totalPrice = {BigDecimal.ZERO};
+        items.stream()
+                .filter(cartItem -> null != cartItem.getProduct().getPrice())
+                .forEach(cartItem -> totalPrice[0] = totalPrice[0].add(cartItem.getProduct().getPrice()
+                        .multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
+        cart.setTotalPrice(totalPrice[0]);
+        long newTotalProducts = 0;
+        newTotalProducts += items.stream()
+                .filter(cartItem -> null != cartItem.getProduct().getPrice()).mapToLong(CartItem::getQuantity).sum();
+        cart.setTotalProducts(newTotalProducts);
     }
 
     public void commit() {
         cart.getItems().clear();
         cart.getItems().addAll(items);
-        cart.recalculateTotalPrice();
+        recalculateTotalPrice();
     }
 }
