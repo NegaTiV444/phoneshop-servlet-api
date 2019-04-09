@@ -1,6 +1,6 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ attribute name="pageTitle" required="true" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <html>
@@ -15,6 +15,10 @@
         <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
         PhoneShop
     </a>
+    <div style="float: right; font-size: 15px; margin-right: 30px">
+        <jsp:include page="/cart/miniCart"/>
+    </div>
+
 </header>
 <main>
     <jsp:doBody/>

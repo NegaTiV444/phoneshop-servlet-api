@@ -44,14 +44,18 @@ public class HttpSessionCartServiceTest {
     @Test
     public void addToCartTest() throws OutOfStockException {
         Cart cart = new Cart();
-        cartService.addToCart(cart, product, 2);
+        CartTransaction transaction = cartService.startTransaction(cart);
+        transaction.add(product, 2);
+        transaction.commit();
         assertEquals(cart.getItems().get(0).getProduct(), product);
     }
 
     @Test(expected = OutOfStockException.class)
     public void addToCartOutOfStockTest() throws OutOfStockException {
         Cart cart = new Cart();
-        cartService.addToCart(cart, product, 4);
+        CartTransaction transaction = cartService.startTransaction(cart);
+        transaction.add(product, 4);
+        transaction.commit();
     }
 
     @Test
