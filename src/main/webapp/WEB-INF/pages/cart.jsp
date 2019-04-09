@@ -12,7 +12,7 @@
             <c:forEach var="item" items="${cart.items}" varStatus="status">
                 <tr>
                     <td>
-                            ${status.index + 1}
+                        ${status.index + 1}
                     </td>
                     <td>
                         <img class="product-tile"
