@@ -60,6 +60,26 @@
         <url-pattern>/cart/miniCart</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>checkout</servlet-name>
+        <servlet-class>com.es.phoneshop.web.CheckoutPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>checkout</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>overview</servlet-name>
+        <servlet-class>com.es.phoneshop.web.OrderOverviewPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>overview</servlet-name>
+        <url-pattern>/order/overview/*</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>
             com.es.phoneshop.web.ProductDemodataServletContextListener
@@ -67,8 +87,13 @@
     </listener>
 
     <error-page>
+        <exception-type>com.es.phoneshop.model.exceptions.OrderNotFoundException</exception-type>
+        <location>/WEB-INF/pages/notFound.jsp</location>
+    </error-page>
+
+    <error-page>
         <exception-type>com.es.phoneshop.model.exceptions.ProductNotFoundException</exception-type>
-        <location>/WEB-INF/pages/productNotFound.jsp</location>
+        <location>/WEB-INF/pages/notFound.jsp</location>
     </error-page>
 
     <error-page>

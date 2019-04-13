@@ -29,18 +29,20 @@ public class CartPageServlet extends HttpServlet {
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
 
-    private final CartService cartService = HttpSessionCartService.newInstance();
+    private final CartService cartService = HttpSessionCartService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        cartService.getCartFromSource(req.getSession());
-        if (null != req.getSession().getAttribute("msg")) {
-            req.setAttribute("msg", req.getSession().getAttribute("msg"));
-            req.getSession().removeAttribute("msg");
+        HttpSession session = req.getSession();
+        cartService.getCartFromSource(session);
+        session.removeAttribute("order");
+        if (null != session.getAttribute("msg")) {
+            req.setAttribute("msg", session.getAttribute("msg"));
+            session.removeAttribute("msg");
         }
-        if (null != req.getSession().getAttribute("q")) {
-            req.setAttribute("q", req.getSession().getAttribute("q"));
-            req.getSession().removeAttribute("q");
+        if (null != session.getAttribute("q")) {
+            req.setAttribute("q", session.getAttribute("q"));
+            session.removeAttribute("q");
         }
         req.getRequestDispatcher("/WEB-INF/pages/cart.jsp").forward(req, resp);
     }
