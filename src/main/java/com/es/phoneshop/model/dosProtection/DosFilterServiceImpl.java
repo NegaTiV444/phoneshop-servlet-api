@@ -32,7 +32,7 @@ public class DosFilterServiceImpl implements DosFilterService {
             return callCounter.incrementAndGet() < REQUEST_LIMIT;
         } else {
             ipCallMap.put(IP, new AtomicInteger(1));
-            return false;
+            return true;
         }
     }
 
