@@ -16,7 +16,7 @@ public class CartItemDeleteServlet extends HttpServlet {
 
     private final ArrayListProductDao productDao = ArrayListProductDao.getInstance();
 
-    private final CartService cartService = HttpSessionCartService.newInstance();
+    private final CartService cartService = HttpSessionCartService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

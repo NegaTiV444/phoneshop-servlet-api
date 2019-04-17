@@ -9,7 +9,7 @@ public class HttpSessionCartService implements CartService {
     private HttpSessionCartService() {
     }
 
-    public static HttpSessionCartService newInstance() {
+    public static HttpSessionCartService getInstance() {
         return SingletonHandler.instance;
     }
 

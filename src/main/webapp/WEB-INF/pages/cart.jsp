@@ -12,7 +12,7 @@
             <c:forEach var="item" items="${cart.items}" varStatus="status">
                 <tr>
                     <td>
-                        ${status.index + 1}
+                            ${status.index + 1}
                     </td>
                     <td>
                         <img class="product-tile"
@@ -52,8 +52,10 @@
                     <button style="float: right">Update</button>
                 </td>
                 <td colspan="2" style="text-align: left">Total: ${cart.totalPrice} $</td>
-
             </tr>
         </table>
+    </form>
+    <form action="<с:url value="/checkout"/>" method="get">
+        <button>Place order</button>
     </form>
 </tags:master>

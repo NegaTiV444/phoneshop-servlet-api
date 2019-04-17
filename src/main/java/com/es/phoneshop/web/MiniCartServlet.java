@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class MiniCartServlet extends HttpServlet {
 
-    private final CartService cartService = HttpSessionCartService.newInstance();
+    private final CartService cartService = HttpSessionCartService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
