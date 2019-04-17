@@ -20,7 +20,7 @@ public class ProductReview {
 
     public ProductReview() {
         uid = UUID.randomUUID().toString();
-        isApproved = false; //TODO make false and add approving
+        isApproved = false;
     }
 
     public boolean isApproved() {

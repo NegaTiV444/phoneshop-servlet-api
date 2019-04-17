@@ -17,17 +17,11 @@
             <c:forEach var="review" items="${reviews}">
                 <hr>
                 <p>
-                    <h3>${review.name}</h3>
+                <h3>Name: ${review.name}</h3>
+                <span>Rating: ${review.rating}</span>
+                <br/>
+                <span>Comment: ${review.comment}</span>
                 </p>
-                <p>
-                    <span>Rating:</span>
-                    <span>${review.rating}</span>
-                </p>
-                <p>
-                    <span>Comment:</span>
-                    <span>${review.comment}</span>
-                </p>
-
             </c:forEach>
         </tr>
     </table>
