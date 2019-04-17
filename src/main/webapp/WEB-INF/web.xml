@@ -80,6 +80,21 @@
         <url-pattern>/order/overview/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>reviewsModeration</servlet-name>
+        <servlet-class>com.es.phoneshop.web.ReviewModerationPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>reviewsModeration</servlet-name>
+        <url-pattern>/moderation</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>reviewsModeration</servlet-name>
+        <url-pattern>/moderation/*</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>
             com.es.phoneshop.web.listeners.ProductDemodataServletContextListener

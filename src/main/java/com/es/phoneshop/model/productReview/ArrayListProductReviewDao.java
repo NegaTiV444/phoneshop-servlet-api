@@ -31,6 +31,7 @@ public class ArrayListProductReviewDao implements ProductReviewDao{
     public List<ProductReview> findReviews(Product product) {
         return reviews.stream()
                 .filter(review -> review.getProduct().equals(product))
+                .filter(ProductReview::isApproved)
                 .collect(Collectors.toList());
     }
 
