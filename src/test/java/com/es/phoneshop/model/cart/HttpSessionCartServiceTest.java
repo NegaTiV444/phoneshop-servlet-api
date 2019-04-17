@@ -32,7 +32,7 @@ public class HttpSessionCartServiceTest {
 
     @BeforeClass
     public static void setup() {
-        cartService = HttpSessionCartService.newInstance();
+        cartService = HttpSessionCartService.getInstance();
         product = new Product();
         product.setId(6666L);
         product.setPrice(new BigDecimal(100));

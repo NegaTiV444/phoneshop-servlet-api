@@ -43,5 +43,28 @@
             </c:if>
         </form>
     </section>
+    <tags:review/>
+    <section>
+        <h2>Add Review</h2>
+        <form method="post">
+            <p>
+                <span>Name</span>
+                <input type="text" name="name" required>
+            </p>
+            <p>
+                <span>Rating</span>
+                <input type="range" name="rating" min="0" max="5" step="1" value="5">
+            </p>
+            <p>
+                <span>Comment</span>
+                <textarea name="comment" required></textarea>
+            </p>
+            <p>
+                <input type="submit">
+            </p>
+        </form>
+        <hr>
+    </section>
+
     <tags:recentlyViewed/>
 </tags:master>
