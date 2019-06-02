@@ -23,5 +23,16 @@
 <main>
     <jsp:doBody/>
 </main>
+<footer>
+    <style>
+        hr {
+            border: none;
+            background-color: aquamarine;
+            height: 3px;
+        }
+    </style>
+    <hr>
+    <a href="<c:url value="/moderation"/>"><h2>Moderation</h2></a>
+</footer>
 </body>
 </html>

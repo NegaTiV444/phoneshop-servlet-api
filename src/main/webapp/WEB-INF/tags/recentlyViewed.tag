@@ -10,7 +10,7 @@
     <table>
         <thead>
         <tr>
-            Recently viewed products
+            <h2>Recently viewed products</h2>
         </tr>
         </thead>
         <tr>

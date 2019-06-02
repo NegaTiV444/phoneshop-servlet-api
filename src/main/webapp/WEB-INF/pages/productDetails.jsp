@@ -24,6 +24,7 @@
                 <input id="cartQuantity" name="quantity" value="${not empty param.q ? param.q : 1}">
                 <span> Available ${product.stock}</span>
             </div>
+            <br/>
             <button>Add to cart</button>
             <c:if test="${not empty param.msg}">
                 <c:choose>
@@ -42,6 +43,36 @@
                 </c:choose>
             </c:if>
         </form>
+    </section>
+    <tags:review/>
+    <section>
+        <h2>Add Review</h2>
+        <form method="post">
+            <p>
+                <span>Name</span>
+                <input type="text" name="name" required>
+            </p>
+            <p>
+
+                <span>Rating</span>
+                <input type="range" name="rating" min="1" max="5" step="1" value="5" oninput="amount.value = rating.value">
+                <output name="amount" for="rating">5</output>
+            </p>
+            <p>
+                <span>Comment</span>
+                <br/>
+                <style>
+                    textarea {
+                        resize: none;
+                    }
+                </style>
+                <textarea name="comment" required rows="6" cols="30"></textarea>
+            </p>
+            <p>
+                <input type="submit">
+            </p>
+        </form>
+        <hr>
     </section>
     <tags:recentlyViewed/>
 </tags:master>
